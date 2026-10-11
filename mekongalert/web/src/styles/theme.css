@@ -1,0 +1,139 @@
+/* ============================================================
+   MekhongAlert — command-center dark theme.
+   Grounded in real disaster-ops rooms (dark, screen-lit) rather
+   than generic "dark mode": near-black canvas, severity ramp
+   doubles as the accent system (green=clear -> red=critical),
+   brand teal stays reserved for interactive/primary actions so
+   it never competes with severity meaning.
+   Font: Space Grotesk for display/numerals only — falls back to
+   system sans for glyphs it doesn't cover (Thai/Chinese/Lao/Vietnamese
+   render via the sans-serif fallback automatically, per-character).
+   ============================================================ */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: Inter, -apple-system, sans-serif;
+}
+
+:root {
+  --mk-bg: #0a0a0a;
+  --mk-surface: #141414;
+  --mk-surface-raised: #1c1c1c;
+  --mk-border: rgba(255, 255, 255, 0.1);
+  --mk-accent: #2dd4bf;
+}
+
+.font-display {
+  font-family:
+    "Space Grotesk",
+    Inter,
+    -apple-system,
+    sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.eyebrow {
+  font-family: "Space Grotesk", Inter, sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.stat-number {
+  font-family: "Space Grotesk", Inter, sans-serif;
+  font-weight: 700;
+  font-size: 34px;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+/* ---------- Sidebar: pill nav, borrows the "rounded capsule" vernacular ---------- */
+
+.mk-sider {
+  background: var(--mk-bg) !important;
+  border-right: 1px solid var(--mk-border);
+}
+
+.mk-sider .ant-menu {
+  background: transparent !important;
+  border-inline-end: none !important;
+  padding: 0 12px;
+}
+
+.mk-sider .ant-menu-item {
+  border-radius: 999px !important;
+  margin-block: 6px !important;
+  color: rgba(255, 255, 255, 0.65) !important;
+}
+
+.mk-sider .ant-menu-item:hover {
+  background: rgba(255, 255, 255, 0.06) !important;
+  color: #fff !important;
+}
+
+.mk-sider .ant-menu-item-selected {
+  background: #fff !important;
+  color: #0a0a0a !important;
+  font-weight: 600;
+}
+
+.mk-sider .ant-menu-item-selected:hover {
+  background: #fff !important;
+  color: #0a0a0a !important;
+}
+
+/* ---------- Header pill controls ---------- */
+
+.mk-header {
+  background: var(--mk-bg) !important;
+  border-bottom: 1px solid var(--mk-border);
+}
+
+.mk-pill-btn {
+  border-radius: 999px !important;
+}
+
+/* ---------- Cards: quiet dark surface, severity/accent glow only on hover ---------- */
+
+.mk-card {
+  background: var(--mk-surface) !important;
+  border: 1px solid var(--mk-border) !important;
+  border-radius: 20px !important;
+}
+
+.mk-card .ant-card-head {
+  border-bottom: 1px solid var(--mk-border) !important;
+}
+
+/* ---------- Signature: radar sweep, the actual instrument of an ops room ---------- */
+
+@keyframes radar-sweep {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.radar-sweep {
+  position: absolute;
+  inset: -20%;
+  background: conic-gradient(from 0deg, transparent 0%, rgba(45, 212, 191, 0.14) 8%, transparent 16%);
+  animation: radar-sweep 6s linear infinite;
+  pointer-events: none;
+  border-radius: 50%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .radar-sweep {
+    animation: none;
+  }
+}

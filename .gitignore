@@ -1,3 +1,11 @@
 .DS_Store
 .playwright-mcp/
-*.png
+.claude/
+.remember/
+# session screenshots at the wrapper root only — project images (web/public, brand/, docs/screenshots/) are tracked
+/*.png
+*.tsbuildinfo
+# never commit real env files (mekongalert/.gitignore covers them too)
+.env
+.env.*
+!.env.example

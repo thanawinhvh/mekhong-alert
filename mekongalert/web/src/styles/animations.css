@@ -1,0 +1,221 @@
+/* ============================================================
+   MekongAlert — shared animation utilities.
+   Plain CSS only (keyframes / transitions / transforms) — no
+   animation library. Palette: teal #136d85, amber #e9af44/#d39530.
+   Severity colors stay untouched (see lib/severity.ts).
+   ============================================================ */
+
+/* ---------- 1. Animated gradient backgrounds ---------- */
+
+@keyframes gradient-shift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Login page — slow-moving teal glow over near-black, matches the command-center theme. */
+.animated-gradient-login {
+  background-color: #0a0a0a;
+  background-image:
+    radial-gradient(circle at 20% 30%, rgba(45, 212, 191, 0.16) 0%, transparent 45%),
+    radial-gradient(circle at 80% 70%, rgba(45, 212, 191, 0.1) 0%, transparent 45%);
+  background-size: 220% 220%;
+  animation: gradient-shift 18s ease-in-out infinite;
+}
+
+/* WarRoom — very subtle teal/amber glow drifting over the dark background. */
+.animated-gradient-warroom {
+  background-color: #0a0e14;
+  background-image:
+    radial-gradient(circle at 15% 20%, rgba(19, 109, 133, 0.22) 0%, transparent 45%),
+    radial-gradient(circle at 85% 80%, rgba(233, 175, 68, 0.12) 0%, transparent 45%),
+    radial-gradient(circle at 50% 50%, rgba(19, 109, 133, 0.1) 0%, transparent 60%);
+  background-size: 200% 200%;
+  animation: gradient-shift 20s ease-in-out infinite;
+}
+
+/* ---------- 2. Entrance animations ---------- */
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in-up {
+  animation: fade-in-up 0.45s ease-out both;
+}
+
+/* Cascade helpers for grids of tiles/panels (WarRoom stat tiles, etc). */
+.fade-in-up-delay-1 {
+  animation-delay: 80ms;
+}
+.fade-in-up-delay-2 {
+  animation-delay: 160ms;
+}
+.fade-in-up-delay-3 {
+  animation-delay: 240ms;
+}
+.fade-in-up-delay-4 {
+  animation-delay: 320ms;
+}
+
+/* ---------- 3. Hover micro-interactions (Cards) ---------- */
+
+.hover-lift {
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+.hover-lift:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(19, 109, 133, 0.18);
+}
+
+/* ---------- 4. Live / pulse indicators ---------- */
+
+@keyframes pulse-dot {
+  0% {
+    box-shadow: 0 0 0 0 rgba(19, 201, 168, 0.55);
+    opacity: 1;
+  }
+  70% {
+    box-shadow: 0 0 0 8px rgba(19, 201, 168, 0);
+    opacity: 0.85;
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(19, 201, 168, 0);
+    opacity: 1;
+  }
+}
+
+@keyframes pulse-dot-red {
+  0% {
+    box-shadow: 0 0 0 0 rgba(245, 34, 45, 0.55);
+    opacity: 1;
+  }
+  70% {
+    box-shadow: 0 0 0 8px rgba(245, 34, 45, 0);
+    opacity: 0.85;
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(245, 34, 45, 0);
+    opacity: 1;
+  }
+}
+
+.pulse-dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #1ec9a8;
+  flex-shrink: 0;
+  animation: pulse-dot 1.8s ease-in-out infinite;
+}
+
+.pulse-dot-red {
+  background: #f5222d;
+  animation-name: pulse-dot-red;
+}
+
+/* Leaflet circleMarker (SVG path) pulse — used for urgent/active alert markers. */
+@keyframes marker-pulse-opacity {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
+  }
+}
+.marker-pulse {
+  animation: marker-pulse-opacity 1.4s ease-in-out infinite;
+}
+
+/* Leaflet divIcon "radar ping" ring — used for high-credibility report markers. */
+.marker-ping-wrap {
+  position: relative;
+}
+.marker-ping-wrap::after {
+  content: "";
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  border: 2px solid currentColor;
+  animation: marker-ping 1.6s ease-out infinite;
+}
+@keyframes marker-ping {
+  0% {
+    transform: scale(0.6);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1.9);
+    opacity: 0;
+  }
+}
+
+/* ---------- 6. Button / CTA polish ---------- */
+
+/* Broad, low-risk pass over every AntD button: only touches transform/
+   box-shadow/filter, properties AntD's own button styles don't animate,
+   so it layers on top instead of fighting AntD's built-in transitions. */
+.ant-btn {
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease,
+    filter 0.15s ease;
+}
+.ant-btn:hover:not(:disabled) {
+  transform: translateY(-1px) scale(1.02);
+  filter: brightness(1.04);
+}
+.ant-btn:active:not(:disabled) {
+  transform: translateY(0) scale(0.99);
+}
+
+/* Opt-in stronger CTA treatment for primary actions. */
+.btn-pop {
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    filter 0.2s ease;
+}
+.btn-pop:hover:not(:disabled) {
+  transform: translateY(-1px) scale(1.03);
+  box-shadow: 0 8px 20px rgba(19, 109, 133, 0.28);
+  filter: brightness(1.06);
+}
+.btn-pop:active:not(:disabled) {
+  transform: translateY(0) scale(0.98);
+}
+
+/* ---------- 7. Logo treatment ---------- */
+
+@keyframes logo-breathe {
+  0%,
+  100% {
+    transform: translateY(0);
+    filter: drop-shadow(0 0 0 rgba(19, 109, 133, 0));
+  }
+  50% {
+    transform: translateY(-4px);
+    filter: drop-shadow(0 8px 14px rgba(19, 109, 133, 0.35));
+  }
+}
+.logo-breathe {
+  display: inline-block;
+  animation: logo-breathe 3.2s ease-in-out infinite;
+}
